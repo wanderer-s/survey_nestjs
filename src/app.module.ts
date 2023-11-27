@@ -6,11 +6,21 @@ import { graphqlConfig } from './config/graphql.config';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeORMConfig } from './config/typeorm.config';
+import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeORMConfig)
-    // GraphQLModule.forRoot<ApolloDriverConfig>(graphqlConfig)
+    TypeOrmModule.forRoot(typeORMConfig),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      ...graphqlConfig
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
+    UserModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService]
