@@ -9,6 +9,7 @@ import { typeORMConfig } from './config/typeorm.config';
 import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { SurveyModule } from './survey/survey.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true
     }),
     UserModule,
-    AuthModule
+    AuthModule,
+    SurveyModule
   ],
   controllers: [AppController],
   providers: [AppService]
