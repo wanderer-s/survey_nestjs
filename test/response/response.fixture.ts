@@ -18,7 +18,7 @@ export function createResponse(
 }
 
 export function createAnswer(
-  response: ResponseEntity,
+  response: ResponseEntity = createResponse(),
   questionTitle: string = 'questionTitle',
   choiceName: string = 'choiceName',
   choicePoint: number = 5
