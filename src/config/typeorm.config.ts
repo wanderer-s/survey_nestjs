@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 
 export const typeORMConfig: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -8,5 +9,6 @@ export const typeORMConfig: TypeOrmModuleOptions = {
   password: 'local_password',
   database: 'survey',
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  synchronize: true
+  synchronize: true,
+  namingStrategy: new SnakeNamingStrategy()
 };
