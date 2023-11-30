@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { ChoiceEntity } from '../../src/survey/entity/choice.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { createChoice } from './createSurveyFixture';
+import { createChoice } from './survey.fixture';
 import { NotFoundException } from '@nestjs/common';
 
 describe('Choice Service Test', () => {

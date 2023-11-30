@@ -1,31 +1,20 @@
-import {
-  Args,
-  Int,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver
-} from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { SurveyTemplateService } from '../service/survey-template.service';
 import {
-  CreateSurveyTemplateDto,
+  CreateSurveyTemplateDto, findAllSurveyTemplateFilter,
   SurveyTemplate,
   SurveyTemplateList,
   UpdateSurveyTemplateDto
 } from '../dto/survey-template.dto';
-import { QuestionService } from '../service/question.service';
 import { CurrentUserId } from '../../auth/auth.decorator';
 import { AuthGuard } from '../../auth/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
+import { Pagination } from '../../global/types';
 
 @Resolver(() => SurveyTemplate)
 export class SurveyTemplateResolver {
-  constructor(
-    private readonly surveyTemplateService: SurveyTemplateService,
-    private readonly questionService: QuestionService
-  ) {}
+  constructor(private readonly surveyTemplateService: SurveyTemplateService) {}
 
   @Query(() => SurveyTemplate)
   async surveyTemplate(@Args('id', { type: () => Int }) id: number) {
@@ -34,21 +23,18 @@ export class SurveyTemplateResolver {
 
   @Query(() => SurveyTemplateList)
   async surveyTemplates(
-    @Args('page', { type: () => Int, defaultValue: 1, nullable: true })
-    page?: number,
-    @Args('perPage', { type: () => Int, defaultValue: 10, nullable: true })
-    perPage?: number,
-    @Args('title', { nullable: true }) title?: string
+    @Args('pagination') pagination: Pagination,
+    @Args('filter', { nullable: true }) filter?: findAllSurveyTemplateFilter
   ) {
     const { items, total } = await this.surveyTemplateService.findAll({
-      page,
-      perPage,
-      title
+      page: pagination.page,
+      perPage: pagination.perPage,
+      title: filter.title
     });
 
     return plainToClass(SurveyTemplateList, {
       totalCount: total,
-      totalPage: Math.floor(total / perPage) + 1,
+      totalPage: Math.floor(total / pagination.perPage) + 1,
       items: items.map((item) => plainToClass(SurveyTemplate, item))
     });
   }
@@ -80,11 +66,5 @@ export class SurveyTemplateResolver {
     } catch (error) {
       throw error;
     }
-  }
-
-  @ResolveField()
-  async questions(@Parent() surveyTemplate: SurveyTemplate) {
-    const { id } = surveyTemplate;
-    return await this.questionService.findBySurveyTemplateId(id);
   }
 }

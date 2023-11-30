@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { QuestionEntity } from '../../src/survey/entity/question.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { createQuestion } from './createSurveyFixture';
+import { createQuestion } from './survey.fixture';
 import { NotFoundException } from '@nestjs/common';
 
 describe('Question Service Test', () => {

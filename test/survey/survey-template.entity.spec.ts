@@ -1,5 +1,5 @@
 import { SurveyTemplateEntity } from '../../src/survey/entity/survey-template.entity';
-import { createSurveyTemplate } from './createSurveyFixture';
+import { createSurveyTemplate } from './survey.fixture';
 
 describe('Survey Template Entity Test', () => {
   let surveyTemplate: SurveyTemplateEntity;

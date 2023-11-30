@@ -27,6 +27,7 @@ import { ChoiceResolver } from './resolver/choice.resolver';
     ChoiceService,
     ChoiceResolver,
     JwtService
-  ]
+  ],
+  exports: [SurveyTemplateService]
 })
 export class SurveyModule {}

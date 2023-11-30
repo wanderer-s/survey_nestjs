@@ -1,8 +1,7 @@
-import { ArgsType, Field, Int, ObjectType } from '@nestjs/graphql';
+import { ArgsType, Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { RootEntity } from '../../global/root.entity';
 import { Question } from './question.dto';
 import { Paginated } from '../../global/pagination.model';
-import { SurveyTemplateEntity } from '../entity/survey-template.entity';
 
 @ArgsType()
 export class CreateSurveyTemplateDto {
@@ -24,6 +23,13 @@ export class UpdateSurveyTemplateDto {
   @Field({ nullable: true })
   description?: string;
 }
+
+@InputType()
+export class findAllSurveyTemplateFilter {
+  @Field({nullable: true, description: '제목에로 포함되어 있는 설문지 조회'})
+  title: string;
+}
+
 @ObjectType()
 export class SurveyTemplate extends RootEntity {
   @Field()

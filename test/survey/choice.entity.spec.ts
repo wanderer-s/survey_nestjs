@@ -1,5 +1,5 @@
 import { ChoiceEntity } from '../../src/survey/entity/choice.entity';
-import { createChoice } from './createSurveyFixture';
+import { createChoice } from './survey.fixture';
 
 describe('Choice Entity Test', () => {
   let choice: ChoiceEntity;

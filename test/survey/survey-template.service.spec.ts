@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { createSurveyTemplate } from './createSurveyFixture';
+import { createSurveyTemplate } from './survey.fixture';
 import { NotFoundException } from '@nestjs/common';
 import { SurveyTemplateService } from '../../src/survey/service/survey-template.service';
 import { SurveyTemplateEntity } from '../../src/survey/entity/survey-template.entity';

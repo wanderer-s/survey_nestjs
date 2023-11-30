@@ -1,5 +1,5 @@
 import { QuestionEntity } from '../../src/survey/entity/question.entity';
-import { createQuestion } from './createSurveyFixture';
+import { createQuestion } from './survey.fixture';
 
 describe('Question Entity Test', () => {
   let question: QuestionEntity;
