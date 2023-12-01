@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { graphqlConfig } from './config/graphql.config';
 import { ApolloDriverConfig } from '@nestjs/apollo';
@@ -10,21 +8,41 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { SurveyModule } from './survey/survey.module';
+import { ResponseModule } from './response/response.module';
+import { APP_FILTER } from '@nestjs/core';
+import { ErrorFilter } from './global/filter/GraphQLExceptionFilter';
+import { GraphQLError } from 'graphql/error';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      ...graphqlConfig
+      ...graphqlConfig,
+      formatError: (error: GraphQLError) => {
+        // @ts-ignore
+        const message = error?.extensions?.originalError?.message as string
+        // @ts-ignore
+        const statusCode = error?.extensions?.originalError?.statusCode as number;
+        const graphQLFormattedError = {
+          message,
+          statusCode
+        };
+        return graphQLFormattedError;
+      }
     }),
     ConfigModule.forRoot({
       isGlobal: true
     }),
     UserModule,
     AuthModule,
-    SurveyModule
+    SurveyModule,
+    ResponseModule
   ],
-  controllers: [AppController],
-  providers: [AppService]
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ErrorFilter
+    }
+  ]
 })
 export class AppModule {}
